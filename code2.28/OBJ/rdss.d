@@ -36,3 +36,4 @@
 ..\obj\rdss.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
 ..\obj\rdss.o: ..\HARDWARE\PCF8563\pcf8563.h
 ..\obj\rdss.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\string.h
+..\obj\rdss.o: ..\HARDWARE\LED\led.h
