@@ -36,6 +36,7 @@
 ////////////////////////////////////////////////////////////////////////////////// 
 
 extern u8 LED_Flash_sta;
+extern u8 LED_DAT_sta;
 
 #define LED_GPS_ON		LED_GPS = 1
 #define LED_GPS_OFF		LED_GPS = 0

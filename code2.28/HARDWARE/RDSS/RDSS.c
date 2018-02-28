@@ -3,7 +3,7 @@
 #include "usart.h"
 #include "pcf8563.h"
 #include <string.h>
-
+#include "led.h"
 
 rdss RDSS;
 rdss_rx RDSS_RX;
@@ -249,124 +249,124 @@ void RDSS_BDICI_Analysis(void)
 =========================================================================*/
 void RDSS_BDBSI_Analysis(void)
 {
-//#if	_Debug	
-//	u8 i=0,n=0;
-//	
-//	printf("响应波束：%c%c\r\n",RDSS_DATA.BUFF[6],RDSS_DATA.BUFF[7]);
-//	printf("时差波束：%c%c\r\n",RDSS_DATA.BUFF[9],RDSS_DATA.BUFF[10]);
-//	printf("1：");
-//	
-//	n=RDSS_DATA.BUFF[12]-0x30;
-//	for(i=0;i<n;i++)
-//	{
-//		
+#if	_Debug	
+	u8 i=0,n=0;
+	
+	printf("响应波束：%c%c\r\n",RDSS_DATA.BUFF[6],RDSS_DATA.BUFF[7]);
+	printf("时差波束：%c%c\r\n",RDSS_DATA.BUFF[9],RDSS_DATA.BUFF[10]);
+	printf("1：");
+	
+	n=RDSS_DATA.BUFF[12]-0x30;
+	for(i=0;i<n;i++)
+	{
+		
 
-//		printf("* ");
-//	
-//	}
+		printf("* ");
+	
+	}
 
-//		printf("\r\n2：");
-//	
-//	n=RDSS_DATA.BUFF[14]-0x30;
-//	for(i=0;i<n;i++)
-//	{
-//		
+		printf("\r\n2：");
+	
+	n=RDSS_DATA.BUFF[14]-0x30;
+	for(i=0;i<n;i++)
+	{
+		
 
-//		printf("* ");
-//	
-//	}
+		printf("* ");
+	
+	}
 
-//		printf("\r\n3：");
-//	
-//	n=RDSS_DATA.BUFF[16]-0x30;
-//	for(i=0;i<n;i++)
-//	{
-//		
+		printf("\r\n3：");
+	
+	n=RDSS_DATA.BUFF[16]-0x30;
+	for(i=0;i<n;i++)
+	{
+		
 
-//		printf("* ");
-//	
-//	}
+		printf("* ");
+	
+	}
 
-//		printf("\r\n4：");
-//	
-//	n=RDSS_DATA.BUFF[18]-0x30;
-//	for(i=0;i<n;i++)
-//	{
-//		
+		printf("\r\n4：");
+	
+	n=RDSS_DATA.BUFF[18]-0x30;
+	for(i=0;i<n;i++)
+	{
+		
 
-//		printf("* ");
+		printf("* ");
 
-//	}
+	}
 
-//		printf("\r\n5：");
+		printf("\r\n5：");
 
-//	n=RDSS_DATA.BUFF[20]-0x30;
-//	for(i=0;i<n;i++)
-//	{
-//		
+	n=RDSS_DATA.BUFF[20]-0x30;
+	for(i=0;i<n;i++)
+	{
+		
 
-//		printf("* ");
-//	
-//	}
+		printf("* ");
+	
+	}
 
-//		printf("\r\n6：");
+		printf("\r\n6：");
 
-//	n=RDSS_DATA.BUFF[22]-0x30;
-//	for(i=0;i<n;i++)
-//	{
-//		
+	n=RDSS_DATA.BUFF[22]-0x30;
+	for(i=0;i<n;i++)
+	{
+		
 
-//		printf("* ");
-//	
-//	}
+		printf("* ");
+	
+	}
 
-//		printf("\r\n7：");
+		printf("\r\n7：");
 
-//	n=RDSS_DATA.BUFF[24]-0x30;
-//	for(i=0;i<n;i++)
-//	{
-//		
+	n=RDSS_DATA.BUFF[24]-0x30;
+	for(i=0;i<n;i++)
+	{
+		
 
-//		printf("* ");
-//	
-//	}
+		printf("* ");
+	
+	}
 
-//		printf("\r\n8：");
+		printf("\r\n8：");
 
-//	n=RDSS_DATA.BUFF[26]-0x30;
-//	for(i=0;i<n;i++)
-//	{
-//		
+	n=RDSS_DATA.BUFF[26]-0x30;
+	for(i=0;i<n;i++)
+	{
+		
 
-//		printf("* ");
-//	
-//	}
+		printf("* ");
+	
+	}
 
-//		printf("\r\n9：");
+		printf("\r\n9：");
 
-//	n=RDSS_DATA.BUFF[28]-0x30;
-//	for(i=0;i<n;i++)
-//	{
-//		
+	n=RDSS_DATA.BUFF[28]-0x30;
+	for(i=0;i<n;i++)
+	{
+		
 
-//		printf("* ");
-//	
-//	}
+		printf("* ");
+	
+	}
 
-//		printf("\r\n10：");
-//	
-//	n=RDSS_DATA.BUFF[30]-0x30;
-//	for(i=0;i<n;i++)
-//	{
-//		
+		printf("\r\n10：");
+	
+	n=RDSS_DATA.BUFF[30]-0x30;
+	for(i=0;i<n;i++)
+	{
+		
 
-//		printf("* ");
-//	
-//	}
+		printf("* ");
+	
+	}
 
 		printf("\r\n-------------------------------------\r\n");
 
-//#endif
+#endif
 	if((RDSS_DATA.BUFF[12]-0x30>1)||(RDSS_DATA.BUFF[14]-0x30>1)||(RDSS_DATA.BUFF[16]-0x30>1)||(RDSS_DATA.BUFF[18]-0x30>1)\
 		||(RDSS_DATA.BUFF[20]-0x30>1)||(RDSS_DATA.BUFF[22]-0x30>1)||(RDSS_DATA.BUFF[24]-0x30>1)||(RDSS_DATA.BUFF[26]-0x30>1)\
 		||(RDSS_DATA.BUFF[28]-0x30>1)||(RDSS_DATA.BUFF[30]-0x30>1))
@@ -825,11 +825,11 @@ void RDSS_Init(void)
 	printf("-------------------------------------\r\n");
 #endif
 	Send_String((u8 *)RDSS_CMD_ICA);//读取SIM卡信息
-	RDSS_TX.RDSS_TX_DATA_STA = 0;//报文发送状态
-	
-	RDSS.Read_Signal_Counter = 100;//2s
+	RDSS_TX.RDSS_TX_DATA_STA = 0;	//报文发送状态
+	RDSS.signal_Timeout=3000*2;		//搜索信号超时计时2分钟
+	RDSS.Read_Signal_Counter = 100;	//2s
 	RDSS_TX.RDSS_TX_DATA_Time = 500;// 发送时间间隔10s 
-	rtc.adjusting=2000;//开机40秒后时间校准
+	rtc.adjusting=2000;				//开机40秒后时间校准
 	
 }
 
@@ -928,7 +928,7 @@ void RDSS_Time_incident(void)
 	
 	
 //----------------------------------	服务频度已到	------------------------------------
-	if((RDSS.Server_Counter==0)&&(RDSS_TX.RDSS_TX_DATA_Time==0))
+	if((RDSS.Server_Counter==0)&&(RDSS_TX.RDSS_TX_DATA_Time==0)&&(RDSS.signal_sta==1))
 	{	
 		RDSS_TX.RDSS_TX_DATA_Time = 500;
 		switch(RDSS_TX.RDSS_TX_DATA_STA)

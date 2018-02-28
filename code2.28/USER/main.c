@@ -49,40 +49,39 @@ void TIM3_IRQHandler(void)//TIM3中断20ms  TIM3_IRQChannel
 		if(main_time>6000)
 			main_time=0;
 //------------------------------1S计时-------------------------------		
-		if(main_time%50==0)
+//		if(main_time%50==0)
+//		{
+//			//LED_WARR_Flash;
+//		}
+		
+//------------------------------搜索信号计时-----------------------------	
+		if(RDSS.signal_sta==0)
 		{
-			LED_DAT_Flash;
+			RDSS.signal_Timeout--;
 		}
-		
-
-		
+		if(RDSS.signal_Timeout==0)//信号超时点亮报警灯
+		{
+			LED_WARR_ON;
+			RDSS.signal_Timeout=3000*2;
+		}
 		
 //------------------------------指示灯闪烁-----------------------------
+		
 		if(main_time%2==0)
 		{
-			switch(LED_Flash_sta)
-			{
-				case 1:
-				LED_PWR_Flash;
-				break;
-				case 2:
-				LED_WARR_Flash;
-				break;
-				case 3:
-				LED_DAT_Flash;
-				break;
-				case 4:
-				if(RDSS.signal_sta==0)LED_GPS_Flash;		
-				break;
-				default:
-				break;
-			}
-		}
-		
+			if(RDSS.signal_sta==0)LED_GPS_Flash;
 			
 		
-
+		}
 		
+		if(RDSS_TX.RDSS_TX_DATA_Time>=450)
+		{
+			if(RDSS_TX.RDSS_TX_DATA_Time%2==0)
+			{
+				LED_DAT_Flash;
+			}	
+		}
+		else LED_DAT_OFF;	
 		
 //------------------------------RDSS定时部分----------------------------
 		//模块服务频度
@@ -95,7 +94,7 @@ void TIM3_IRQHandler(void)//TIM3中断20ms  TIM3_IRQChannel
 		{
 			rtc.adjusting--;
 		}
-		//数据发送频度
+		//数据间隔
 		if(RDSS_TX.RDSS_TX_DATA_Time != 0){
 			RDSS_TX.RDSS_TX_DATA_Time --;
 		}

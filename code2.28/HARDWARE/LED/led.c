@@ -73,6 +73,7 @@ void IO_Init(void){
  }
 
  u8 LED_Flash_sta;
+ u8 LED_DAT_sta=0;
 void LED_STA (void)
 {
 	if(RDSS.signal_sta)
@@ -82,6 +83,7 @@ void LED_STA (void)
 	}
 	else LED_Flash_sta=4;
 	
+	if(RDSS_TX.RDSS_TX_DATA_Time==0)LED_DAT_OFF;
 //	LED_DAT_Flash;
 //	LED_WARR_Flash;	
 }

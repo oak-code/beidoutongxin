@@ -65,6 +65,7 @@ typedef struct{
 
 typedef struct{
 	u8 signal_sta;//信号状态
+	u32 signal_Timeout;
 	u32 Read_Signal_Counter;//信号时间频度
 	u32 Read_Location_Counter;//定位时间频度
 	u32 Server_Counter;//模块服务频度
