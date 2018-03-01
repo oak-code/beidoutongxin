@@ -15,10 +15,10 @@
 ////////////////////////////////////////////////////////////////////////////////// 
 #define LED0 PBout(5)// PB5
 #define LED1 PEout(5)// PE5	
-#define LED_PWR			PBout(3)		//LED1
-#define LED_DAT			PBout(4)		//LED2
-#define LED_WARR		PBout(5)		//LED3
-#define LED_GPS			PDout(2)		//LED4
+#define LED_PWR			PBout(5)		//LED1
+#define LED_DAT			PBout(3)		//LED2
+#define LED_WARR		PDout(2)		//LED3
+#define LED_GPS			PBout(4)		//LED4
 
 #define Bee				PCout(12)	
 #define RDSS_PWR		PAout(4)	//北斗模块使能引脚，高电平使能

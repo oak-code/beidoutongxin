@@ -59,10 +59,11 @@ void TIM3_IRQHandler(void)//TIM3中断20ms  TIM3_IRQChannel
 		{
 			RDSS.signal_Timeout--;
 		}
+		else LED_WARR_OFF;
 		if(RDSS.signal_Timeout==0)//信号超时点亮报警灯
 		{
 			LED_WARR_ON;
-			RDSS.signal_Timeout=3000*2;
+			RDSS.signal_Timeout=3000*2;//2分钟
 		}
 		
 //------------------------------指示灯闪烁-----------------------------
@@ -84,6 +85,9 @@ void TIM3_IRQHandler(void)//TIM3中断20ms  TIM3_IRQChannel
 		else LED_DAT_OFF;	
 		
 //------------------------------RDSS定时部分----------------------------
+		if(RDSS_TX.RDSS_TX_Time!=0)
+		RDSS_TX.RDSS_TX_Time--;
+		
 		//模块服务频度
 		if(RDSS.Server_Counter!=0)
 		{

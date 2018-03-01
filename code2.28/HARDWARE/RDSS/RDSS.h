@@ -37,6 +37,7 @@ typedef struct{
 }rdss_rx;//接收
 
 typedef struct{
+	u32 RDSS_TX_Time;//发送数据时间间隔
 	u8 RDSS_TX_DATA_STA;//发送报文标志 0报文1报文2报文 
 	u32 RDSS_TX_DATA_Time;//发送数据时间间隔
 	u8 RDSS_TXBUFF1_LEN;

@@ -824,6 +824,9 @@ void RDSS_Init(void)
 	printf(">>>>>>$CCICA,0,00*7B\r\n");
 	printf("-------------------------------------\r\n");
 #endif
+	
+	
+	RDSS_TX.RDSS_TX_Time=100;//给模块发送指令的时间间隔
 	Send_String((u8 *)RDSS_CMD_ICA);//读取SIM卡信息
 	RDSS_TX.RDSS_TX_DATA_STA = 0;	//报文发送状态
 	RDSS.signal_Timeout=3000*2;		//搜索信号超时计时2分钟
@@ -907,73 +910,74 @@ void RDSS_PackBuff(u8* buff,u16 len)
 =========================================================================*/
 void RDSS_Time_incident(void)
 {
-
-//-----------------------------------	读取北斗信号信息	--------------------------------
-	if(RDSS.Read_Signal_Counter==0)
-	{
-		if(RDSS.signal_sta)					
-		{
-			RDSS.Read_Signal_Counter=1000;//半分钟
-		}	
-		else RDSS.Read_Signal_Counter=100;//1s
-		Send_String((u8 *)RDSS_CMD_BSI);
-#if	_Debug	
-	printf(">>>>>>$CCRMO,BSI,2,0*26\r\n");
-	printf("-------------------------------------\r\n");
-#endif
-	}
 	
-	
-	
-	
-	
-//----------------------------------	服务频度已到	------------------------------------
-	if((RDSS.Server_Counter==0)&&(RDSS_TX.RDSS_TX_DATA_Time==0)&&(RDSS.signal_sta==1))
-	{	
-		RDSS_TX.RDSS_TX_DATA_Time = 500;
-		switch(RDSS_TX.RDSS_TX_DATA_STA)
-		{				
-			
-			case 0://定位报文
-				{
+		
+	//----------------------------------	服务频度已到	------------------------------------
+		if((RDSS.Server_Counter==0)&&(RDSS_TX.RDSS_TX_DATA_Time==0)&&(RDSS.signal_sta==1)&&(RDSS_TX.RDSS_TX_Time==0))
+		{	
+			RDSS_TX.RDSS_TX_DATA_Time = 500;
+			RDSS_TX.RDSS_TX_Time=100;//给模块发送指令的时间间隔
+			switch(RDSS_TX.RDSS_TX_DATA_STA)
+			{				
+				
+				case 0://定位报文
+					{
+						
+						Send_String((u8 *)RDSS_CMD_DWA);
+						#if	_Debug
+								
+							printf(">>>>>>$CCDWA,0000000,V,1,L,,0,,,0*65\r\n");
+							printf("-------------------------------------\r\n");
+						#endif
+					}			
+				break;
+				case 1://数据报文1
+					//RDSS_PackBuff((u8 *)"00001",5);
+					RDSS_PackBuff(RDSS_TX.RDSS_TX_BUFF1,RDSS_TX.RDSS_TXBUFF1_LEN);
+				break;
+				case 2://数据报文2
+					//RDSS_PackBuff((u8 *)"00002",5);
+					RDSS_PackBuff(RDSS_TX.RDSS_TX_BUFF2,RDSS_TX.RDSS_TXBUFF2_LEN);
+				break;
 					
-					Send_String((u8 *)RDSS_CMD_DWA);
-					#if	_Debug
-							
-						printf(">>>>>>$CCDWA,0000000,V,1,L,,0,,,0*65\r\n");
-						printf("-------------------------------------\r\n");
-					#endif
-				}			
-			break;
-			case 1://数据报文1
-				//RDSS_PackBuff((u8 *)"00001",5);
-				RDSS_PackBuff(RDSS_TX.RDSS_TX_BUFF1,RDSS_TX.RDSS_TXBUFF1_LEN);
-			break;
-			case 2://数据报文2
-				//RDSS_PackBuff((u8 *)"00002",5);
-				RDSS_PackBuff(RDSS_TX.RDSS_TX_BUFF2,RDSS_TX.RDSS_TXBUFF2_LEN);
-			break;
-				
-			default:
-				
-			break;
+				default:
+					
+				break;
+			}
+		
+		}
+		
+		
+	//------------------------------	开机40S 获取时间信息		---------------------------	
+		if((rtc.adjusting==0)&&(RDSS_TX.RDSS_TX_Time==0))
+		{
+			rtc.adjusting=2500;
+			RDSS_TX.RDSS_TX_Time=100;//给模块发送指令的时间间隔
+			Send_String((u8 *)RDSS_CMD_ZDA);
+			
+			
+	#if	_Debug	
+		printf(">>>>>>$CCRMO,ZDA,2,0*21\r\n");
+		printf("-------------------------------------\r\n");
+	#endif
+		}
+		
+	//-----------------------------------	读取北斗信号信息	--------------------------------
+		if((RDSS.Read_Signal_Counter==0)&&(RDSS_TX.RDSS_TX_Time==0))
+		{
+			RDSS_TX.RDSS_TX_Time=100;//给模块发送指令的时间间隔
+			if(RDSS.signal_sta)					
+			{
+				RDSS.Read_Signal_Counter=1000;//半分钟
+			}	
+			else RDSS.Read_Signal_Counter=100;//1s
+			Send_String((u8 *)RDSS_CMD_BSI);
+	#if	_Debug	
+		printf(">>>>>>$CCRMO,BSI,2,0*26\r\n");
+		printf("-------------------------------------\r\n");
+	#endif
 		}
 	
-	}
-	
-	
-//------------------------------	开机40S 获取时间信息		---------------------------	
-	if(rtc.adjusting==0)
-	{
-		rtc.adjusting=2500;
-		Send_String((u8 *)RDSS_CMD_ZDA);
-		
-		
-#if	_Debug	
-	printf(">>>>>>$CCRMO,ZDA,2,0*21\r\n");
-	printf("-------------------------------------\r\n");
-#endif
-	}
 	
 }
 

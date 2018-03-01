@@ -6,7 +6,7 @@
 
 
  u16 rdss_rx_tim;
-
+sys SYS;	
 
 void TIM3_Int_Init(u16 arr,u16 psc)
 {
@@ -81,13 +81,14 @@ void Value_Init(void)
 	if(EEP_state != EEP_EMPTY_FLAG)//这个EEP 是新的空的EEP,则写入默认值
 	{
 		AT24Cxx_WriteString(EEP_PRARM_Tongxin_ID,"0311886",8);		//通信ID号码
-		AT24Cxx_WriteString(EEP_PRARM_ID,"0311886",8);				//本机ID号码
+		AT24Cxx_WriteString(EEP_PRARM_ID,"00010001",9);				//本机ID号码
 		AT24Cxx_WriteOneByte(EEP_EMPTY_FLAG_ADDR,EEP_EMPTY_FLAG);//写标志位		
 	}
 	
 	{
 	
 	AT24Cxx_ReadString(EEP_PRARM_Tongxin_ID,RDSS_TX.RDSS_TX_ADDR,7);
+	AT24Cxx_ReadString(EEP_PRARM_ID,SYS.EQID,8);
 //#if	_Debug
 //	for(i=0;i<7;i++)
 //		printf("%c\r\n",RDSS_TX.RDSS_TX_ADDR[i]);
@@ -117,7 +118,7 @@ void UART_Allocation(void)
 			if(strcmp((char *)UART_CMD,"TXID")==0)
 			{
 				#if	_Debug
-					printf("更改北斗通信id为：");
+					printf("更改北斗通信ID为：");
 				#endif
 				for(i=0;i<(USART_RX_STA&0X3FFF)-6;i++)
 				{
@@ -131,7 +132,23 @@ void UART_Allocation(void)
 				#endif
 				AT24Cxx_WriteString(EEP_PRARM_Tongxin_ID,UART_DATA,8);		//通信ID号码		
 			}
-			
+			if(strcmp((char *)UART_CMD,"EQID")==0)
+			{
+				#if	_Debug
+					printf("更改设备ID为：");
+				#endif
+				for(i=0;i<(USART_RX_STA&0X3FFF)-6;i++)
+				{
+					UART_DATA[i]=USART_RX_BUF[i+6];
+				#if	_Debug
+						printf("%c",UART_DATA[i]);
+				#endif
+				}
+				#if	_Debug
+					printf("\r\n");
+				#endif
+				AT24Cxx_WriteString(EEP_PRARM_ID,UART_DATA,8);		//通信ID号码		
+			}
 			
 			
 		}
